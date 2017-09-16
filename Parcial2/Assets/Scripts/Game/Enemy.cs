@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Parcial2.Game
 {
@@ -48,6 +49,44 @@ namespace Parcial2.Game
             }
         }
 
+		public void ReceiveExplosiveDamage(int damage, bool collidedWithPlayer = false)
+		{
+			Debug.Log(string.Format("[{0}] received [{1}] damage pts, remaining [{2}] HP", name, damage, HP));
+
+
+			Collider[] otherColliders = Physics.OverlapSphere(transform.position, 3F);
+
+			for (int i = 0; i < otherColliders.Length; i++)
+			{
+				if (otherColliders[i].gameObject == gameObject)
+				{
+					continue;
+				}
+				else
+				{
+					Enemy enemy = otherColliders[i].GetComponent<Enemy>();
+
+					if (enemy != null)
+					{
+						HP -= damage;
+						/*lookAtLocation = enemy.transform.position;
+						break;*/
+					}
+				}
+			}
+				
+			if (collidedWithPlayer)
+			{
+				canMove = false;
+			}
+				
+
+			if (HP <= 0)
+			{
+				Destroy(this.gameObject);
+			}
+		}
+
         private void Start()
         {
             switch (tier)
@@ -92,5 +131,14 @@ namespace Parcial2.Game
                 }
             }
         }
+
+		private void OnDrawGizmosSelected()
+		{
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawWireSphere(transform.position, 3);
+
+			Gizmos.color = Color.green;
+			Gizmos.DrawRay(transform.position, Vector3.forward * 3F);
+		}
     }
 }

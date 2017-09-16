@@ -1,1 +1,24 @@
-[Inserte aquí las respuestas a las preguntas del numeral 1]
+﻿[Respuestas de Camilo Villegas (MrDoom)
+
+1.a) El jugador usa "Physics.Overlapsphere" para detectar los enemigos con rigidbody que se encuentran dentro de cierto radio,
+para luego determinar la posicion del enemigo y al disparar, que la bala vaya a la posicion del enemigo e inflinga cierto daño
+
+1.b) Puedo identificar 3 razones:
+- Si no existe una "instancie" de enemy
+- Si "canmove" == false
+- Si su "speed" = 0
+
+1.c) Se usa "Object.Instantiate" para instanciar cierto objeto (en este caso, bulletbase recive el prefab de bullet) con ciertas
+valores de posicion y rotacion y en este codigo en particular, daño y velocidad tambien, ademas de un instigador.
+
+1.d) Enemy posee varias propiedades definidas y sus caracteristicas:
+Tier: Esta es, pues, privada y solo esta la clase enemy puede definir que tier va a usar. Tambien posee
+un enum protegido, lo que quiere decir que talvez subclases puedan editar el enum.
+
+New Color: Es pues, publico, cualquier otra clase puede referenciar a enemy y editar el nuevo color.
+
+Body Mesh: Es pues, publico, cualquier otra clase puede referenciar a enemy y editar el nuevo color.
+
+Speed: Esta es, pues, privada y solo la clase enemy puede definir el valor de la flotante speed.
+
+1.e) Saber que "gameObject" la esta disparando, en este caso, el jugador lo hace.]

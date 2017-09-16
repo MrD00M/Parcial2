@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Parcial2.Game
 {
@@ -16,12 +17,17 @@ namespace Parcial2.Game
         private ParticleSystem onKilledPS;
 
         [SerializeField]
-        private Bullet bulletBase;
+		private Bullet bulletBase, explosiveBulletBase;
 
         private PlayerProfile playerProfile;
 
         private int hp;
         private int atk;
+
+		[SerializeField]
+		private Button shootButton, shootExplosiveButton;
+
+		private Bullet bulletInstance, explosiveBulletInstance;
 
         public static Player Instance
         {
@@ -53,6 +59,80 @@ namespace Parcial2.Game
         {
             playerProfile.UpdateCurrency(currencyAdd);
         }
+
+		public void ShootOnClick() {
+			Vector3 lookAtLocation = Vector3.zero;
+			//Debug.DrawRay(transform.position, Vector3.forward * 5F, Color.green, 5F);
+
+			Collider[] otherColliders = Physics.OverlapSphere(transform.position, 10F);
+
+			for (int i = 0; i < otherColliders.Length; i++)
+			{
+				if (otherColliders[i].gameObject == gameObject)
+				{
+					continue;
+				}
+				else
+				{
+					Enemy enemy = otherColliders[i].GetComponent<Enemy>();
+
+					if (enemy != null)
+					{
+						lookAtLocation = enemy.transform.position;
+						break;
+					}
+				}
+			}
+
+			if (lookAtLocation != Vector3.zero)
+			{
+				transform.LookAt(lookAtLocation);
+			}
+
+		
+			bulletInstance = Instantiate(bulletBase, transform.position + new Vector3(0F, 1F, 0F), transform.rotation);
+			bulletInstance.SetParams(25, 100, this.gameObject);
+			bulletInstance.Toss();
+
+			shootButton.interactable = false;
+		}
+
+		public void ShootOnExplosiveClick() {
+			Vector3 lookAtLocation = Vector3.zero;
+			//Debug.DrawRay(transform.position, Vector3.forward * 5F, Color.green, 5F);
+
+			Collider[] otherColliders = Physics.OverlapSphere(transform.position, 10F);
+
+			for (int i = 0; i < otherColliders.Length; i++)
+			{
+				if (otherColliders[i].gameObject == gameObject)
+				{
+					continue;
+				}
+				else
+				{
+					Enemy enemy = otherColliders[i].GetComponent<Enemy>();
+
+					if (enemy != null)
+					{
+						lookAtLocation = enemy.transform.position;
+						break;
+					}
+				}
+			}
+
+			if (lookAtLocation != Vector3.zero)
+			{
+				transform.LookAt(lookAtLocation);
+			}
+
+
+			explosiveBulletInstance = Instantiate(explosiveBulletBase, transform.position + new Vector3(0F, 1F, 0F), transform.rotation);
+			explosiveBulletInstance.SetParams(25, 50, this.gameObject);
+			explosiveBulletInstance.Toss();
+
+			shootExplosiveButton.interactable = false;
+		}
 
         private void Awake()
         {
@@ -106,6 +186,8 @@ namespace Parcial2.Game
             Destroy(this);
         }
 
+
+
         // Use this for initialization
         private void Start()
         {
@@ -113,40 +195,13 @@ namespace Parcial2.Game
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+           /* if (Input.GetKeyDown(KeyCode.Space))
             {
-                Vector3 lookAtLocation = Vector3.zero;
-                //Debug.DrawRay(transform.position, Vector3.forward * 5F, Color.green, 5F);
-
-                Collider[] otherColliders = Physics.OverlapSphere(transform.position, 10F);
-
-                for (int i = 0; i < otherColliders.Length; i++)
-                {
-                    if (otherColliders[i].gameObject == gameObject)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        Enemy enemy = otherColliders[i].GetComponent<Enemy>();
-
-                        if (enemy != null)
-                        {
-                            lookAtLocation = enemy.transform.position;
-                            break;
-                        }
-                    }
-                }
-
-                if (lookAtLocation != Vector3.zero)
-                {
-                    transform.LookAt(lookAtLocation);
-                }
-
-                Bullet bulletInstance = Instantiate(bulletBase, transform.position + new Vector3(0F, 1F, 0F), transform.rotation);
-                bulletInstance.SetParams(50, 100, this.gameObject);
-                bulletInstance.Toss();
-            }
+               
+            }*/
+			if (bulletInstance == null) {
+				shootButton.interactable = true;
+			}
         }
 
         private void OnDrawGizmosSelected()
@@ -157,5 +212,6 @@ namespace Parcial2.Game
             Gizmos.color = Color.green;
             Gizmos.DrawRay(transform.position, Vector3.forward * 10F);
         }
+			
     }
 }
