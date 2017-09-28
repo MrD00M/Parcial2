@@ -1,0 +1,16 @@
+Feedback
+
+1. El código no busca específicamente rigidbodies, sino enemigos. (0.15)
+2. OK (0.3)
+3. OK (0.3)
+4. Y qué pasó con las "propiedades" del enemigo? Lo que mencionaste son los campos. Las propiedades eran Atk y Hp. De todos modos es correcta la descripción de esos campos (0.1)
+5. OK (0.3)
+
+Código
+1. No hay controlador de instancias de enemigos o fábricas (0.0)
+2. Dónde se habilita el botón? (0.3)
+3. No hay controlador de olas (0.0)
+4. Dónde se habilita el botón? (0.7). Por qué no usaste herencia para esta bala?
+5. Los pools están bien, pero no están integrados a la función de disparo (0.3). Por qué no usaste herencia para los pools?
+
+Total: 2.3
